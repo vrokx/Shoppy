@@ -1,0 +1,8 @@
+﻿@model RepoPractice.Models.OrderModel
+
+<div style="margin-top: 100px">
+
+    COD : @Html.RadioButtonFor(model => model.OrderStatus, "COD")<br />
+    WALLET :@Html.RadioButtonFor(model => model.OrderStatus, "Wallet")<br />
+    <button class="btn btn-outline-success">@Html.ActionLink("Order", "OrderConfirmed", "Buyer")</button>
+</div>
