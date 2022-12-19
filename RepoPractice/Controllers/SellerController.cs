@@ -13,6 +13,8 @@ using RepoPractice.Models.DAL.Product;
 
 namespace RepoPractice.Controllers
 {
+
+
     [Authorize]
     public class SellerController : Controller
     {

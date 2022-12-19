@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<RepoPractice.Models.OrderModel>
 
 <div>
-    <div class="row mt-5">
+    <div class="row" style="margin-top: 100px">
         @foreach (var item in Model)
         {
-            <div class="card shadow col-lg-3 m-4" style="width: 18rem;">
+            <div class="card shadow col-lg-3" style="width: 18rem;">
                 <div class="card-body">
                     <lable>Order ID : </lable><h5 class="card-title">@Html.DisplayFor(modelItem => item.OrderId)</h5>
                     <lable>Order Status : </lable><p class="card-text">@Html.DisplayFor(modelItem => item.OrderStatus)</p>

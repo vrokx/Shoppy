@@ -1,42 +1,73 @@
-﻿@model RepoPractice.Models.ProductModel
-
-@{
-    ViewBag.Title = "ViewCart";
+﻿@{
+    ViewBag.Title = "checkout";
 }
+
+
 
 <h2>ViewCart</h2>
 
-<div>
-    <h4>ProductModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
+@if (TempData["cart"] != null)
+{
 
-        <dd>
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
+    <table class="table table-responsive">
 
-        <dd>
-            <img src="@Url.Content(Model.Image)" class="card-img-top w-25 h" alt="...">
-        </dd>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>QUANTITY</th>
+                <th>PRICE</th>
+                <th>BILL</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in TempData["cart"] as List<RepoPractice.Models.CartModel>)
+            {
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
+                <tr>
+                    <td>@item.ProductModel_ProductId </td>*
+                    <td>@item.productname</td>
+                    <td>@item.price</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.TotalAmount</td>
+                    <td><a class="btn btn-danger btn-sm" href="@Url.Action("Remove",new{id=@item.ProductModel_ProductId})">&#10060;</a></td>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Add To Cart", "Edit", new { id = Model.ProductId }) |
-    @Html.ActionLink("CheckOut", "Index")
-</p>
+                </tr>
+
+            }
+
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="4"></td>
+                <td>@TempData["total"]</td>
+
+            </tr>
+        </tfoot>
+
+    </table>
+
+
+
+
+
+}
+else
+{
+    <h2 style="color:red"> Cart is empty....</h2>
+    @Html.ActionLink(" Back To Products", "BuyerDisplayAllProduct", "Buyer")
+}
+
+@if (TempData["cart"] != null)
+{
+    using (Html.BeginForm())
+    {
+        
+        @Html.ActionLink(" Back To Products", "BuyerDisplayAllProduct", "Buyer")
+    }
+
+}
+<button class="btn btn-outline-success">@Html.ActionLink("Buy Now", "Checkout", "Buyer")</button>

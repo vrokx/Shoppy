@@ -13,6 +13,8 @@ namespace RepoPractice.App_Start
     {
         private IRepository<UserModel> userObj;
 
+        ShoppingCartDBContext db = new ShoppingCartDBContext();
+
         public LoginController()
         {
             this.userObj = new GenericRepository<UserModel>();
@@ -45,8 +47,11 @@ namespace RepoPractice.App_Start
             //              select i.Email).ToString();
             //var dbPassword = (from i in myList
             //                 select i.Password).ToString();
+            //var credentials = (user.Where()
 
-            if (email == user.Email && password == user.Password) 
+            var credentials = db.UserSet.Where(x => x.Email == email && x.Password == password).FirstOrDefault();
+
+            if (credentials != null) 
             {
 
                 if (email == "admin@admin.com" && password == "admin@123")
