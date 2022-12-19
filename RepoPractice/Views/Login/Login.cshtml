@@ -3,13 +3,12 @@
 @{
     ViewBag.Title = "Login";
 }
+<div  class="shadow p-3 rounded-2 " style="margin-top: 100px">
 
-<h2>Login</h2>
-
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
+    <h2>Login</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
         <div class="form-group mt-5">
             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -26,15 +25,15 @@
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <br />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Login" class="btn btn-default" />
-                <button class="btn btn-outline-success">@Html.ActionLink("Register", "Register", "Login")</button>
+                <input type="submit" value="Login" class="btn btn-default btn-primary" />
+                <button class="btn btn-outline-primary">@Html.ActionLink("Register", "Register", "Login")</button>
             </div>
-        </div>  
-}
-
+        </div>
+    }
+</div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>

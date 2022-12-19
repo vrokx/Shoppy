@@ -53,9 +53,13 @@ namespace RepoPractice.App_Start
 
             if (credentials != null) 
             {
+                Session["userEmail"] = email;
+                Session["userPassword"] = password;
+
 
                 if (email == "admin@admin.com" && password == "admin@123")
                 {
+                    
                     FormsAuthentication.SetAuthCookie(email, false);
                     return RedirectToAction("DisplayAllProducts", "Seller");
                 }
