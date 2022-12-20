@@ -56,9 +56,10 @@
 
 }
 else
-{
-    <h2 style="color:red"> Cart is empty....</h2>
-    @Html.ActionLink(" Back To Products", "BuyerDisplayAllProduct", "Buyer")
+{   <div class="mt-5">
+        <h2 style="color:red"> Cart is empty....</h2>
+        @Html.ActionLink(" Back To Products", "BuyerDisplayAllProduct", "Buyer")
+    </div>  
 }
 
 @if (TempData["cart"] != null)

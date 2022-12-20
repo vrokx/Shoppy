@@ -38,6 +38,12 @@ namespace RepoPractice
            );
 
             routes.MapRoute(
+               name: "UpdateProfile",
+               url: "{controller}/{action}/{id}",
+               defaults: new { controller = "Buyer", action = "UpdateProfile", id = UrlParameter.Optional }
+           );
+
+            routes.MapRoute(
                 name: "DisplayAllProducts",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Seller", action = "DisplayAllProducts", id = UrlParameter.Optional }

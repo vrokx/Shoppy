@@ -40,22 +40,19 @@ namespace RepoPractice.App_Start
         [HttpPost]
         public ActionResult Login(string email, string password , UserModel user)
         {
-            //bool isValid = UserModel.Any(x => x.Email == email);
-
-            //var myList = (from i in userObj.GetAll() select i).ToList();
-            //var dbEmail = (from i in myList
-            //              select i.Email).ToString();
-            //var dbPassword = (from i in myList
-            //                 select i.Password).ToString();
-            //var credentials = (user.Where()
+            
 
             var credentials = db.UserSet.Where(x => x.Email == email && x.Password == password).FirstOrDefault();
 
             if (credentials != null) 
             {
+                List<UserModel> users = userObj.GetAll().ToList();
+                var userid = (from id in users where id.Email == email select id.UserId).ToList();
+                Session["UserId"] = userid[0];
                 Session["userEmail"] = email;
                 Session["userPassword"] = password;
 
+                var uid = (int)Session["UserId"];
 
                 if (email == "admin@admin.com" && password == "admin@123")
                 {
@@ -69,7 +66,7 @@ namespace RepoPractice.App_Start
                     return RedirectToAction("BuyerDisplayAllProduct", "Buyer");
                 }
             }
-            return Content("Logged In !");
+            return RedirectToAction("Login");
         }
 
         public ActionResult Logout()

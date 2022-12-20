@@ -214,6 +214,8 @@
     <Content Include="Views\Buyer\PaymentMode.cshtml" />
     <Content Include="Views\Buyer\OrderConfirmed.cshtml" />
     <Content Include="Views\Seller\AuthorizationFailed.cshtml" />
+    <Content Include="Views\Buyer\Search.cshtml" />
+    <Content Include="Views\Buyer\UpdateProfile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
