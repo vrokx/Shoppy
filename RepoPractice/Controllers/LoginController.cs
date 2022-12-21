@@ -41,7 +41,6 @@ namespace RepoPractice.App_Start
         public ActionResult Login(string email, string password , UserModel user)
         {
             
-
             var credentials = db.UserSet.Where(x => x.Email == email && x.Password == password).FirstOrDefault();
 
             if (credentials != null) 
@@ -56,14 +55,13 @@ namespace RepoPractice.App_Start
 
                 if (email == "admin@admin.com" && password == "admin@123")
                 {
-                    
                     FormsAuthentication.SetAuthCookie(email, false);
                     return RedirectToAction("DisplayAllProducts", "Seller");
                 }
                 else
                 {
                     FormsAuthentication.SetAuthCookie(email, false);
-                    return RedirectToAction("BuyerDisplayAllProduct", "Buyer");
+                    return RedirectToAction("BuyerDisplayAllProduct", "Buyer" , new {});
                 }
             }
             return RedirectToAction("Login");

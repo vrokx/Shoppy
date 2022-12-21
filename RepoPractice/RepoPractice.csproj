@@ -143,6 +143,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -216,6 +217,7 @@
     <Content Include="Views\Seller\AuthorizationFailed.cshtml" />
     <Content Include="Views\Buyer\Search.cshtml" />
     <Content Include="Views\Buyer\UpdateProfile.cshtml" />
+    <Content Include="Views\Error\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

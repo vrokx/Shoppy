@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -13,6 +14,10 @@ namespace RepoPractice.Models
 
         [Required]
         public int CurrentBalance { get; set; }
+
+
+        [ForeignKey("UserModel")]
+        public int UserModel_UserId { get; set; }
 
         public UserModel UserModel { get; set; }
 

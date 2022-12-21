@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Web;
-using RepoPractice.Models;
-using System.Web.Mvc;
-using System.Security.Policy;
 
 namespace RepoPractice.Models.DAL.Product
 {

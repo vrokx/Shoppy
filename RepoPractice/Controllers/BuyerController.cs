@@ -9,9 +9,16 @@ using System.Net;
 using System.CodeDom;
 using System.Web.Http.Results;
 using System.Collections.ObjectModel;
+using System.Runtime.Remoting.Contexts;
+using System.Threading.Tasks;
+using System.Web.Helpers;
 
 namespace RepoPractice.Controllers
 {
+    #region
+    /// <summary>
+    /// Contains all buyer actions
+    /// </summary>
     public class BuyerController : Controller
     {
         ShoppingCartDBContext db = new ShoppingCartDBContext();
@@ -24,14 +31,11 @@ namespace RepoPractice.Controllers
 
         public BuyerController()
         {
-            
                 this.productObj = new GenericRepository<ProductModel>();
                 this.userObj = new GenericRepository<UserModel>();
                 this.cartObj = new GenericRepository<CartModel>();
                 this.orderObj = new GenericRepository<OrderModel>();
                 this.walletObj = new GenericRepository<WalletModel>();
-            
-            
         }
 
         [Authorize]
@@ -39,19 +43,6 @@ namespace RepoPractice.Controllers
         {
             try
             {
-                if (TempData["cart"] != null)
-                {
-                    float x = 0;
-                    List<CartModel> li2 = TempData["cart"] as List<CartModel>;
-                    foreach (var item in li2)
-                    {
-                        x += item.TotalAmount;
-
-                    }
-
-                    TempData["total"] = x;
-                }
-                TempData.Keep();
                 return View(from i in productObj.GetAll().OrderByDescending(x => x.ProductId) select i);
             }
             catch (Exception ex)
@@ -59,7 +50,11 @@ namespace RepoPractice.Controllers
                 return Content(ex.Message);
             }
         }
-
+        #region
+        /// <summary>
+        /// Send order confirmation mail to buyer
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public ActionResult SendMail()
         {
@@ -87,25 +82,17 @@ namespace RepoPractice.Controllers
                 return Content(ex.Message);
             }
         }
+        #endregion
 
+        #region
+        /// <summary>
+        /// Display all products on home page
+        /// </summary>
+        /// <returns></returns>
         public ActionResult BuyerDisplayAllProduct()
         {
             try
             {
-                if (TempData["cart"] != null)
-                {
-                    float x = 0;
-                    List<CartModel> li2 = TempData["cart"] as List<CartModel>;
-                    foreach (var item in li2)
-                    {
-                        x += item.TotalAmount;
-
-                    }
-
-                    TempData["total"] = x;
-                }
-                TempData.Keep();
-
                 return View(from i in productObj.GetAll() select i);
             }
             catch (Exception ex)
@@ -113,9 +100,15 @@ namespace RepoPractice.Controllers
                 return Content(ex.Message);
             }
         }
+        #endregion
 
+        #region
+        /// <summary>
+        /// Add to cart action
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
-
         public ActionResult AddToCart(int id)
         {
             try
@@ -185,8 +178,14 @@ namespace RepoPractice.Controllers
                 return Content(ex.Message);
             }
         }
+        #endregion
 
-
+        #region
+        /// <summary>
+        /// Remove from cart
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Remove(int? id)
         {
             try
@@ -211,6 +210,13 @@ namespace RepoPractice.Controllers
                 return Content(ex.Message);
             }
         }
+        #endregion
+
+        #region
+        /// <summary>
+        /// Display Cart
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public ActionResult ViewCart()
         {
@@ -227,7 +233,13 @@ namespace RepoPractice.Controllers
                 return Content(ex.Message);
             }
         }
+        #endregion
 
+        #region
+        /// <summary>
+        /// to update user profile
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public ActionResult UpdateProfile()
         {
@@ -251,13 +263,57 @@ namespace RepoPractice.Controllers
                 return Content(ex.Message);
             }
         }
+        #endregion
 
+        public ActionResult CreateWallet()
+        {
+            var id = (int)Session["UserId"];
+
+            List<WalletModel> wmList = walletObj.GetAll().ToList();
+
+            var credentials = db.WalletSet.Where(x => x.UserModel_UserId == id).FirstOrDefault();
+            if (credentials != null)
+            {
+                var widList = (from i in wmList where i.UserModel_UserId == id select i.UserModel_UserId).ToList();
+                var wid = Convert.ToInt32(widList[0]);
+
+                if (wid == id)
+                {
+                    return RedirectToAction("AddBalance");
+                }
+                return Content("Unhandled Exception");
+            }
+            else
+            {
+                WalletModel wm = new WalletModel();
+
+                wm.CurrentBalance = 0;
+                wm.UserModel_UserId = id;
+                walletObj.Add(wm);
+                walletObj.Save();
+
+
+                return RedirectToAction("AddBalance");
+            }
+        }
+
+        #region
+        /// <summary>
+        /// To add balance in wallet
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [Authorize]
-        public ActionResult AddBalance(UserModel user)
+        public ActionResult AddBalance()
         {
             try
             {
-                WalletModel w = walletObj.GetAllById(user.UserId);
+                var id = (int)Session["UserId"];
+
+                var credentials = db.WalletSet.Where(x => x.UserModel_UserId == id).FirstOrDefault();
+                var wid = credentials.WalletId;
+
+                WalletModel w = walletObj.GetAllById(wid);
                 return View(w);
             }
             catch (Exception ex)
@@ -281,7 +337,13 @@ namespace RepoPractice.Controllers
                 return Content(ex.Message);
             }
         }
+        #endregion
 
+        #region
+        /// <summary>
+        /// direct to checkout page
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Checkout()
         {
             try
@@ -294,7 +356,13 @@ namespace RepoPractice.Controllers
                 return Content(ex.Message);
             }
         }
+        #endregion
 
+        #region
+        /// <summary>
+        /// to choose payment mode
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public ActionResult PaymentMode()
         {
@@ -320,7 +388,13 @@ namespace RepoPractice.Controllers
                 return Content(ex.Message);
             }
         }
+        #endregion
 
+        #region
+        /// <summary>
+        /// to confirm order
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public ActionResult OrderConfirmed()
         {
@@ -333,7 +407,14 @@ namespace RepoPractice.Controllers
                 return Content(ex.Message);
             }
         }
+        #endregion
 
+        #region
+        /// <summary>
+        /// display only searched product
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <returns></returns>
         public ActionResult Search(string searchString)
         {
             try
@@ -347,6 +428,8 @@ namespace RepoPractice.Controllers
                 return Content(ex.Message);
             }
         }
+        #endregion
 
     }
+    #endregion
 }
