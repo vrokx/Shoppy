@@ -111,8 +111,7 @@ namespace RepoPractice.Controllers
         [Authorize]
         public ActionResult AddToCart(int id)
         {
-            try
-            {
+
                 ProductModel p = productObj.GetAllById(Convert.ToInt32(id));
 
                 CartModel co = new CartModel();
@@ -124,18 +123,13 @@ namespace RepoPractice.Controllers
                 cartObj.Add(co);
                 cartObj.Save();
                 return View(p);
-            }
-            catch (Exception ex)
-            {
-                return Content(ex.Message);
-            }
+           
         }
         List<CartModel> li = new List<CartModel>();
         [HttpPost]
         public ActionResult AddToCart(/*ProductModel pi*/ string qty, int? Id)
         {
-            try
-            {
+
                 ProductModel po = productObj.GetAllById(Convert.ToInt32(Id));
                 CartModel co = new CartModel();
                 co.ProductModel_ProductId = po.ProductId;
@@ -172,11 +166,7 @@ namespace RepoPractice.Controllers
                 TempData.Keep();
 
                 return RedirectToAction("ViewCart");
-            }
-            catch (Exception ex)
-            {
-                return Content(ex.Message);
-            }
+            
         }
         #endregion
 
